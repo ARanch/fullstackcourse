@@ -1,0 +1,32 @@
+title Visiting the app first time in SPA
+
+
+actor User
+browser->server: GET request https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML document
+note over browser: <head> requests below
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+note over browser: exceutes spa.js
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: data.json
+note over browser: event handler renders notes that were fetched from server
+
+title Visiting the app first time in SPA
+
+
+actor User
+browser->server: GET request https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML document
+note over browser: <head> requests below
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+note over browser: exceutes spa.js
+browser->server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: data.json
+note over browser: event handler renders notes that were fetched from server
+

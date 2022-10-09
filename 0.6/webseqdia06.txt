@@ -1,0 +1,7 @@
+title User inputs a new note in SPA
+actor User:
+User->browser: inputs a new note and submits
+note over browser: reDrawNotes() // redraws notes list with new note appended
+note over browser: sendToServer()
+browser->server: https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server->browser: 201 response, ressource created
