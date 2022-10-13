@@ -8,6 +8,10 @@ const Button = (props) => (
   <button onClick={props.onClick}>{props.text}</button>
 )
 
+const Statistics = (props) => {
+  
+}
+
 // total number
 // avg score
 // amount positive
