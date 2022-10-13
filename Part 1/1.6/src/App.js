@@ -8,9 +8,17 @@ const Button = (props) => (
   <button onClick={props.onClick}>{props.text}</button>
 )
 
-const Statistics = (props) => {
-  
-}
+const StatsSection = ({good, neutral, bad, total, average, positive, history}) => (
+  <>
+    Good: {good}<br/>
+    Neutral: {neutral}<br/>
+    Bad: {bad}<br/>
+    Total votes: {total}<br/>
+    Average score: {average}<br/>
+    Amount positive: {positive} %<br/>
+    History: {history}
+  </>
+)
 
 // total number
 // avg score
@@ -25,6 +33,7 @@ const App = () => {
   const [average, setAverage] = useState(0)
   const [total, setTotal] = useState(0)
   const [positive, setPositive] = useState(0)
+  const [statsSection, setStatsSection] = useState(<p>No statistics yet.</p>)
 
   const calcAvg = () => {
     let sum = 0
@@ -37,6 +46,7 @@ const App = () => {
     setTotal(total+1)
     calcAvg()
     setPositive(good/total*100)
+    setStatsSection(<StatsSection good={good} neutral={neutral} bad={bad} total={total} average={average} positive={positive} history={history}/>)
   }
 
   const goodVote = () => {
@@ -61,13 +71,7 @@ const App = () => {
       <Button text="Neutral" onClick={() => neutralVote()}/>
       <Button text="Bad" onClick={() => badVote()}/>
       <Header text="Statistics"/>
-      Good: {good}<br/>
-      Neutral: {neutral}<br/>
-      Bad: {bad}<br/>
-      Total votes: {total}<br/>
-      Average score: {average}<br/>
-      Amount positive: {positive} %<br/>
-      History: {history}
+      {statsSection}
     </div>
   )
 }
