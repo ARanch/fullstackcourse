@@ -36,12 +36,14 @@ const App = () => {
   const [statsSection, setStatsSection] = useState(<p>No statistics yet.</p>)
 
   const calcAvg = () => {
+    console.log('calculating averages')
     let sum = 0
     history.forEach(value => {sum += value})
     setAverage(sum/history.length)
   }
   
   const addStats = (voteValue) => {
+    console.log('Adding statistics')
     setHistory(history.concat(voteValue))
     setTotal(total+1)
     calcAvg()
@@ -50,18 +52,23 @@ const App = () => {
   }
 
   const goodVote = () => {
+    console.log('good vote cast')
     setGood(good+1)
     addStats(1)
   }
   
   const badVote = () => {
+    console.log('bad vote cast')
     setBad(bad+1)
     addStats(-1)
   }
   
   const neutralVote = () => {
     setNeutral(neutral+1)
-    addStats(0)
+    console.log('neutral vote cast')
+    setTimeout(() => {
+      addStats(0)
+    },1000)
   }
 
   return (
