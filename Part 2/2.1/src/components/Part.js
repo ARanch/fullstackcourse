@@ -1,8 +1,8 @@
 import React from 'react'
-const Part = (props) => (
+const Part = ({part, exercise}) => (
     // Part component
     <div>
-      {props.part.name} {props.part.exercises}
+      <p>{part}, {exercise}</p>
     </div>
   )
 
