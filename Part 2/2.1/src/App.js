@@ -1,7 +1,4 @@
 import Course from './components/Course'
-import Header from './components/Header'
-import Part from './components/Part'
-import Content from './components/Content'
 
 const Total = (props) => (
   // total component
@@ -29,7 +26,12 @@ const App = () => {
       {
         name: 'State of a component',
         exercises: 14,
-        id: 3
+        id: 3,
+      },
+      {
+        name: 'Introduction to awesomeness',
+          exercises: 10,
+        id: 4,
       }
     ]
   }
