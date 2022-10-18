@@ -1,4 +1,5 @@
 import Course from './components/Course'
+// already did this
 
 const Total = (props) => (
   // total component
