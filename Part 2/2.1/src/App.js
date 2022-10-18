@@ -9,7 +9,8 @@ const Total = (props) => (
 )
 
 const App = () => {
-  const course = {
+  const course = [
+  {
     id: 1,
     name: 'Half Stack application development',
     parts: [
@@ -39,10 +40,32 @@ const App = () => {
         id: 5,
       }
     ]
+  },
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
   }
+]
 
 
-  return <Course course={course} />
+  return (
+    <div>
+      <Course course={course[0]} />
+      <Course course={course[1]} />
+    </div>
+  )
 }
 
 export default App
