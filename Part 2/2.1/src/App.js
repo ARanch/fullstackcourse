@@ -29,9 +29,14 @@ const App = () => {
         id: 3,
       },
       {
-        name: 'Introduction to awesomeness',
+        name: 'Introduction to Awesomeness',
           exercises: 10,
         id: 4,
+      },
+      {
+        name: 'Introduction to Awesomeness Two: Advanced Awesomeness',
+          exercises: 14,
+        id: 5,
       }
     ]
   }
