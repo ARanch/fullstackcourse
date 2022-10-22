@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Filter from './components/filter'
+import InputForm from './components/inputForm'
+import List from './components/list'
 // demands:
 // add names to list of contacts
 
@@ -47,38 +49,14 @@ const App = () => {
     )
     return duplicate
   }
- // breakout into: filter, input form, and phonebook list
+  // breakout into: filter, input form, and phonebook list
   return (
     <div>
       <h2>Phonebook</h2>
-      <h3>Add new</h3>
-      <form onSubmit={saveName}>
-        <div>
-          name:
-          <input
-            onChange={handleNameChange}
-            placeholder='insert name here' />
-        </div>
-        <div>
-          Phonenumber:
-          <input
-            onChange={handlePhoneChange}
-            placeholder='insert phone number here' />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <InputForm submitHandler={saveName} nameHandler={handleNameChange} phoneHandler={handlePhoneChange} />
       <h3>Numbers</h3>
-      <Filter handler={handleFilterChange}/>
-      <div>
-        <ul>
-          {filter === ''
-            ? persons.map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)
-            : persons.filter(person => person.name.toLowerCase() === filter).map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)
-          }
-        </ul>
-      </div>
+      <Filter handler={handleFilterChange} />
+      <List persons={persons} filter={filter} />
     </div>
   )
 }
