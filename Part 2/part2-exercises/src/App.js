@@ -4,20 +4,28 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    {
+      name: 'Arto Hellas',
+      phone: '1234',
+    }
   ])
   const [newName, setNewName] = useState('Type new name...')
+  const [newPhone, setNewPhone] = useState('Type new phone number...')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
+  const handlePhoneChange = (event) => {
+    setNewPhone(event.target.value)
+    console.log(event.target.value)
+  }
 
   const saveName = (event) => {
     event.preventDefault()
-    checkDuplicates(persons, newName) 
+    checkDuplicates(persons, newName)
       ? alert(`The name "${newName}" is already entered in the phonebook!`) // using string template
-      : setPersons(persons.concat({ name: newName }))
-    }
+      : setPersons(persons.concat({ name: newName, phone: newPhone }))
+  }
 
   const checkDuplicates = (persons, name) => {
     // takes an array of objects 
@@ -48,13 +56,19 @@ const App = () => {
             placeholder='insert name here' />
         </div>
         <div>
+          Phonenumber:
+          <input
+            onChange={handlePhoneChange}
+            placeholder='insert phone number here' />
+        </div>
+        <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       <div>
         <ul>
-          {persons.map(person => <li key={person.name}>{person.name}</li>)}
+          {persons.map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)}
         </ul>
       </div>
     </div>
