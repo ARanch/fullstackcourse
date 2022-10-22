@@ -4,13 +4,12 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      phone: '1234',
-    }
+    { name: 'Missen', phone: '112' },
+    { name: 'pølsen', phone: '70 20 14 16' }
   ])
   const [newName, setNewName] = useState('Type new name...')
   const [newPhone, setNewPhone] = useState('Type new phone number...')
+  const [filter, setFilter] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -18,6 +17,9 @@ const App = () => {
   const handlePhoneChange = (event) => {
     setNewPhone(event.target.value)
     console.log(event.target.value)
+  }
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value.toLowerCase())
   }
 
   const saveName = (event) => {
@@ -48,6 +50,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <h3>Add new</h3>
       <form onSubmit={saveName}>
         <div>
           name:
@@ -65,10 +68,20 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
+      <div>
+        <form onSubmit={(event) => {event.preventDefault()}}>
+          <input
+            onChange={handleFilterChange}
+            placeholder={"Search phonebook..."} />
+        </form>
+      </div>
       <div>
         <ul>
-          {persons.map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)}
+          {filter === ''
+            ? persons.map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)
+            : persons.filter(person => person.name.toLowerCase() === filter).map(person => <li key={person.name}>👨‍🦱 {person.name} – 📱 Phone: {person.phone}</li>)
+          }
         </ul>
       </div>
     </div>
