@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Filter from './components/filter'
 // demands:
 // add names to list of contacts
 
@@ -46,7 +47,7 @@ const App = () => {
     )
     return duplicate
   }
-
+ // breakout into: filter, input form, and phonebook list
   return (
     <div>
       <h2>Phonebook</h2>
@@ -69,13 +70,7 @@ const App = () => {
         </div>
       </form>
       <h3>Numbers</h3>
-      <div>
-        <form onSubmit={(event) => {event.preventDefault()}}>
-          <input
-            onChange={handleFilterChange}
-            placeholder={"Search phonebook..."} />
-        </form>
-      </div>
+      <Filter handler={handleFilterChange}/>
       <div>
         <ul>
           {filter === ''
