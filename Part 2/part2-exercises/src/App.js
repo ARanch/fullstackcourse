@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/filter'
 import InputForm from './components/inputForm'
 import List from './components/list'
@@ -6,10 +7,17 @@ import List from './components/list'
 // add names to list of contacts
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Missen', phone: '112' },
-    { name: 'pølsen', phone: '70 20 14 16' }
-  ])
+  useEffect(() => {
+    axios
+        .get('http://localhost:3001/persons')
+        .then((response) => {
+          console.log('data fetched')
+          setPersons(response.data)
+        })
+  }, [])
+  
+  
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('Type new name...')
   const [newPhone, setNewPhone] = useState('Type new phone number...')
   const [filter, setFilter] = useState('')
