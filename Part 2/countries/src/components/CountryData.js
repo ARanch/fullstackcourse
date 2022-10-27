@@ -1,3 +1,5 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 const Render10Countries = ({ countries, filterSetter }) => {
 
@@ -33,6 +35,19 @@ const Render1Country = ({ country }) => {
     const con = country[0]
     console.log('Language keys are:', Object.keys(con.languages))
     // const languageKeys = con.languages.keys()
+
+    const weatherUrl = `https://wttr.in/${con.capital[0]}?format=3`
+    console.log('hello weatherUrl!', weatherUrl)
+    // const [weatherUrl, setWeatherUrl] = useState('https://wttr.in/Nuremberg:Hamburg:Berlin?format=3')
+    const [weather, setWeather] = useState('')
+
+    useEffect(() => {
+        axios
+            .get(weatherUrl)
+            .then(response => {
+                setWeather(response.data)
+            })
+    }, [])
 
     return (
         <div>
@@ -83,6 +98,14 @@ const Render1Country = ({ country }) => {
                             <img height="100px" src={con.flags.svg} />
                         </td>
                     </tr>
+                        <tr>
+                            <td>
+                                Current weather:
+                            </td>
+                            <td>
+                                {weather}
+                            </td>
+                        </tr>
                 </tbody>
             </table>
 
