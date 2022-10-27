@@ -3,17 +3,18 @@ import axios from 'axios'
 import Filter from './components/filter'
 import InputForm from './components/inputForm'
 import List from './components/list'
-// demands:
-// add names to list of contacts
+import entries from './services/entries'
+//TO dos for ex 2.15-2.18
+// √ add notes to a json server
+// √ extract code that handles backend to separate module under /services
+// make it possible to delete users, 
+  // confirm action with window.confirm method
+  // use http delete request. no data is sent with request
+// make it possible to change phone number of entry via PUT
 
 const App = () => {
   useEffect(() => {
-    axios
-        .get('http://localhost:3001/persons')
-        .then((response) => {
-          console.log('data fetched')
-          setPersons(response.data)
-        })
+    entries.getEntries().then(response => setPersons(response))
   }, [])
   
   
@@ -38,6 +39,11 @@ const App = () => {
     checkDuplicates(persons, newName)
       ? alert(`The name "${newName}" is already entered in the phonebook!`) // using string template
       : setPersons(persons.concat({ name: newName, phone: newPhone }))
+    
+    entries.addEtry({
+      name: newName, 
+      phone: newPhone
+    })
   }
 
   const checkDuplicates = (persons, name) => {
