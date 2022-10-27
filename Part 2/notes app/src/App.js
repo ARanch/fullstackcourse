@@ -57,40 +57,48 @@ const App = (props) => {
     const url = `http://localhost:3001/notes/${id}` // url/server location of note to be changed
     const note = notes.find(n => n.id === id) // find note in DOM state notes object matching id of note to be changed
     const changedNote = { ...note, important: !note.important } //create shallow copy of specific note object, where the important parameter is inverted
-    noteService.update(id, changedNote).then(newNote => setNotes(notes.map(n => n.id !==id ? n : newNote)))
-    // axios.put(url, changedNote).then(response => { // put new note to server
-    //   setNotes(notes.map(n => n.id !== id ? n : response.data)) // change the note in DOM, i.e.: if ID does not match, keep note n, else, change to response from server (i.e. the data that was just put there)
-    // })
-    console.log(`toggle importance of note ${id}`)
-    // axios.porst('http://localhost:3001/notes/id:1')
-  }
-  return (
+    noteService.update(id, changedNote).then(returnedNote => {
+      setNotes(notes.map(n => n.id !== id ? n : returnedNote))
+    })
+      .catch(error => {
+        alert(`the note '${note.content}' was already deleted from server`) // alert that note was deleted
+        setNotes(notes.filter(n => n.id !== id)) // filter out the missing note
+      })
+
+  //axios.put(url, changedNote).then(response => { // put new note to server
+  //   setNotes(notes.map(n => n.id !== id ? n : response.data)) // change the note in DOM, i.e.: if ID does not match, keep note n, else, change to response from server (i.e. the data that was just put there)
+  // })
+  console.log(`toggle importance of note ${id}`)
+  // axios.porst('http://localhost:3001/notes/id:1')
+}
+
+return (
+  <div>
+    <h1>Notes</h1>
     <div>
-      <h1>Notes</h1>
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <table>
-        <tbody>
-          {notesToShow.map(note =>
-            <Note
-              key={note.id}
-              note={note}
-              toggleImportance={() => toggleImportanceOf(note.id)}
-            />)}
-        </tbody>
-      </table>
-      <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}
-        />
-        <button type="submit">save</button>
-      </form>
+      <button onClick={() => setShowAll(!showAll)}>
+        show {showAll ? 'important' : 'all'}
+      </button>
     </div>
-  )
+    <table>
+      <tbody>
+        {notesToShow.map(note =>
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(note.id)}
+          />)}
+      </tbody>
+    </table>
+    <form onSubmit={addNote}>
+      <input
+        value={newNote}
+        onChange={handleNoteChange}
+      />
+      <button type="submit">save</button>
+    </form>
+  </div>
+)
 }
 
 export default App
