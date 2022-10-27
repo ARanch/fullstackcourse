@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Note from './components/Note'
+import noteService from './services/noteService'  // module server handling for notes
 
 
 const App = (props) => {
@@ -10,15 +11,20 @@ const App = (props) => {
 
   useEffect(() => {
     console.log('effect fired')
-    axios
-      .get('http://localhost:3001/notes')
-      .then(response => {
-      console.log('promise fulfilled')
-      setNotes(response.data)
+    noteService
+      .getAll()
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data)
+          console.log('Server returned: ', error.response.status)
+          console.log(error.response.headers)
+        }
       })
-  }, [] )
-  console.log('render', notes.length, 'notes')
-
+      .then(initialNotes => {
+        console.log('promise fulfilled')
+        setNotes(initialNotes)
+      })
+  }, [])
 
   const notesToShow = showAll
     ? notes
@@ -31,10 +37,15 @@ const App = (props) => {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
-      id: notes.length + 1,
     }
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
+
+    noteService
+      .create(noteObject)
+      .then(response => {
+        console.log(response)
+        setNotes(notes.concat(noteObject))
+        setNewNote('')
+      })
   }
 
   const handleNoteChange = (event) => {
@@ -42,6 +53,17 @@ const App = (props) => {
     setNewNote(event.target.value)
   }
 
+  const toggleImportanceOf = (id) => {
+    const url = `http://localhost:3001/notes/${id}` // url/server location of note to be changed
+    const note = notes.find(n => n.id === id) // find note in DOM state notes object matching id of note to be changed
+    const changedNote = { ...note, important: !note.important } //create shallow copy of specific note object, where the important parameter is inverted
+    noteService.update(id, changedNote).then(newNote => setNotes(notes.map(n => n.id !==id ? n : newNote)))
+    // axios.put(url, changedNote).then(response => { // put new note to server
+    //   setNotes(notes.map(n => n.id !== id ? n : response.data)) // change the note in DOM, i.e.: if ID does not match, keep note n, else, change to response from server (i.e. the data that was just put there)
+    // })
+    console.log(`toggle importance of note ${id}`)
+    // axios.porst('http://localhost:3001/notes/id:1')
+  }
   return (
     <div>
       <h1>Notes</h1>
@@ -50,10 +72,16 @@ const App = (props) => {
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
-      <ul>
-        {notesToShow.map(note =>
-          <Note key={note.id} note={note} />)}
-      </ul>
+      <table>
+        <tbody>
+          {notesToShow.map(note =>
+            <Note
+              key={note.id}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />)}
+        </tbody>
+      </table>
       <form onSubmit={addNote}>
         <input
           value={newNote}
