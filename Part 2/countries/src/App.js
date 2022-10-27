@@ -10,6 +10,9 @@
 //   √languages spoken
 //   √image of flag
 //   √area
+
+// 2.13: Add show buttons, for when there is multiple countries showing
+// 2.14: add weather data for capital, https://openweathermap.org/
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 import CountryData from './components/CountryData';
@@ -30,6 +33,10 @@ const App = () => {
   
   const handleInput = (event) => {
     setFilter(event.target.value)
+  }
+
+  const setToDenmark = () => {
+    setFilter('Sweden')
   }
   
   useEffect(() => {
@@ -56,12 +63,12 @@ const App = () => {
   
   return (
     <div>
-      <p>Hello world</p>
       <form onSubmit={(event) => event.preventDefault()}>
         <input placeholder='Search Country' onChange={handleInput}></input>
+        <button onClick={() => setFilter('')}>Clear search</button>
       </form>
       <SearchField handler={handleInput} value={filter} />
-      <CountryData countries={countryList}/>
+      <CountryData countries={countryList} filterSetter={setFilter}/>
     </div>
   )
 }

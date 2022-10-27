@@ -1,9 +1,24 @@
 
-const Render10Countries = ({ countries }) => {
+const Render10Countries = ({ countries, filterSetter }) => {
+
     return (
-        <ul>
-            {countries.map((country) => <li key={country.name.common}>{country.name.common}</li>)}
-        </ul>
+        <div>
+            <table>
+                <tbody>
+                    {countries.map((country) => {
+                        return (
+                            <tr key={country.name.common}>
+                                <td key={country.name.common + 'td'}>{country.name.common}</td>
+                                <td key={country.name.common + 'tdBtn'}>
+                                    <button key={country.name.common + 'show'} onClick={() => filterSetter(country.name.common)}>Show</button>
+                                </td>
+                            </tr>
+                        )
+                    }
+                    )}
+                </tbody>
+            </table>
+        </div>
     )
 }
 
@@ -56,9 +71,7 @@ const Render1Country = ({ country }) => {
                         </td>
                         <td>
                             <ul>
-                                <ul>
-                                    {Object.keys(con.languages).map(key => <LanguageLine languageValue={con.languages[key]} />)}
-                                </ul>
+                                {Object.keys(con.languages).map(key => <LanguageLine languageValue={con.languages[key]} />)}
                             </ul>
                         </td>
                     </tr>
@@ -86,7 +99,7 @@ const BeMoreSpecific = ({ countries }) => {
     )
 }
 
-const CountryData = ({ countries }) => {
+const CountryData = ({ countries, filterSetter }) => {
 
     const amtCountries = countries.length
 
@@ -98,7 +111,7 @@ const CountryData = ({ countries }) => {
                     : amtCountries === 1
                         ? <Render1Country country={countries} />
                         : amtCountries >= 1 && amtCountries <= 10
-                            ? <Render10Countries countries={countries} />
+                            ? <Render10Countries countries={countries} filterSetter={filterSetter} />
                             : amtCountries > 10
                                 ? <BeMoreSpecific countries={countries} />
                                 : console('no conditions matched...')
