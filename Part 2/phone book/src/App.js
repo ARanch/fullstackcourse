@@ -79,7 +79,7 @@ const App = () => {
   console.log(persons)
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <InputForm submitHandler={saveName} nameHandler={handleNameChange} phoneHandler={handlePhoneChange} />
       <h3>Numbers</h3>
       <Filter handler={handleFilterChange} />

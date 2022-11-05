@@ -54,7 +54,7 @@ const App = (props) => {
   }
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}` // url/server location of note to be changed
+    const url = `http://localhost:3002/notes/${id}` // url/server location of note to be changed
     const note = notes.find(n => n.id === id) // find note in DOM state notes object matching id of note to be changed
     const changedNote = { ...note, important: !note.important } //create shallow copy of specific note object, where the important parameter is inverted
     noteService.update(id, changedNote).then(returnedNote => {
