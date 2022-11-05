@@ -8,16 +8,15 @@ import entries from './services/entries'
 // √ add notes to a json server
 // √ extract code that handles backend to separate module under /services
 // make it possible to delete users, 
-  // confirm action with window.confirm method
-  // use http delete request. no data is sent with request
+// confirm action with window.confirm method
+// use http delete request. no data is sent with request
 // make it possible to change phone number of entry via PUT
 
 const App = () => {
   useEffect(() => {
     entries.getEntries().then(response => setPersons(response))
   }, [])
-  
-  
+
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('Type new name...')
   const [newPhone, setNewPhone] = useState('Type new phone number...')
@@ -33,17 +32,30 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilter(event.target.value.toLowerCase())
   }
+  const handleDeleteEntry = () => {
+
+  }
 
   const saveName = (event) => {
     event.preventDefault()
     checkDuplicates(persons, newName)
       ? alert(`The name "${newName}" is already entered in the phonebook!`) // using string template
       : setPersons(persons.concat({ name: newName, phone: newPhone }))
-    
+
     entries.addEtry({
-      name: newName, 
+      name: newName,
       phone: newPhone
+    }).then(() => {
+      entries.getEntries().then(response => setPersons(response))
     })
+  }
+
+  const deleteEntry = (id) => {
+    console.log(`deleteEntry(${id}) callled`)
+    entries.deleteEntry(id).then(() => {
+      entries.getEntries().then(response => setPersons(response))
+    }
+    )
   }
 
   const checkDuplicates = (persons, name) => {
@@ -64,13 +76,14 @@ const App = () => {
     return duplicate
   }
   // breakout into: filter, input form, and phonebook list
+  console.log(persons)
   return (
     <div>
       <h2>Phonebook</h2>
       <InputForm submitHandler={saveName} nameHandler={handleNameChange} phoneHandler={handlePhoneChange} />
       <h3>Numbers</h3>
       <Filter handler={handleFilterChange} />
-      <List persons={persons} filter={filter} />
+      <List persons={persons} filter={filter} deleteEntry={deleteEntry}/>
     </div>
   )
 }
