@@ -1,13 +1,8 @@
 {
   "persons": [
     {
-      "name": "Hej Hansi",
-      "phone": "45 12 12 12",
-      "id": 1
-    },
-    {
-      "name": "Carlo Barlo",
-      "phone": "522 444 55",
+      "name": "Hinterser",
+      "phone": "156",
       "id": 2
     }
   ]

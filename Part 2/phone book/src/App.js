@@ -7,7 +7,7 @@ import entries from './services/entries'
 //TO dos for ex 2.15-2.18
 // √ add notes to a json server
 // √ extract code that handles backend to separate module under /services
-// make it possible to delete users, 
+// √ 2.17 make it possible to delete users, 
 // confirm action with window.confirm method
 // use http delete request. no data is sent with request
 // make it possible to change phone number of entry via PUT
@@ -32,9 +32,6 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilter(event.target.value.toLowerCase())
   }
-  const handleDeleteEntry = () => {
-
-  }
 
   const saveName = (event) => {
     event.preventDefault()
@@ -51,11 +48,14 @@ const App = () => {
   }
 
   const deleteEntry = (id) => {
-    console.log(`deleteEntry(${id}) callled`)
-    entries.deleteEntry(id).then(() => {
-      entries.getEntries().then(response => setPersons(response))
+    const name = persons.find(person => person.id === id).name
+    if (window.confirm(`Do you really want to delete ${name}`)) {
+      entries.deleteEntry(id).then(() => {
+        entries.getEntries().then(response => setPersons(response))
+      }).then(() => alert('Entry deleted!'))
+    } else {
+      alert('Aborted')
     }
-    )
   }
 
   const checkDuplicates = (persons, name) => {
@@ -83,7 +83,7 @@ const App = () => {
       <InputForm submitHandler={saveName} nameHandler={handleNameChange} phoneHandler={handlePhoneChange} />
       <h3>Numbers</h3>
       <Filter handler={handleFilterChange} />
-      <List persons={persons} filter={filter} deleteEntry={deleteEntry}/>
+      <List persons={persons} filter={filter} deleteEntry={deleteEntry} />
     </div>
   )
 }
