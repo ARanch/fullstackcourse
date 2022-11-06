@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Janus Opfindson",
-      "phone": "123",
-      "id": 1
-    },
-    {
       "name": "Jordman Dundhammer",
       "phone": "500",
       "id": 2
