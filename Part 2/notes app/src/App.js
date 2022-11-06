@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Note from './components/Note'
+import Footer from './components/Footer'
 import noteService from './services/noteService'  // module server handling for notes
-
+import Notification from './components/Error'
 
 const App = (props) => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
+  const [errorMessage, setErrorMessage] = useState(null)
+
 
   useEffect(() => {
     console.log('effect fired')
@@ -61,44 +64,50 @@ const App = (props) => {
       setNotes(notes.map(n => n.id !== id ? n : returnedNote))
     })
       .catch(error => {
-        alert(`the note '${note.content}' was already deleted from server`) // alert that note was deleted
+        // alert(`the note '${note.content}' was already deleted from server`) // alert that note was deleted
+        setErrorMessage(`"${note.content}" was already removed from server!`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        },5000)
         setNotes(notes.filter(n => n.id !== id)) // filter out the missing note
       })
 
-  //axios.put(url, changedNote).then(response => { // put new note to server
-  //   setNotes(notes.map(n => n.id !== id ? n : response.data)) // change the note in DOM, i.e.: if ID does not match, keep note n, else, change to response from server (i.e. the data that was just put there)
-  // })
-  console.log(`toggle importance of note ${id}`)
-  // axios.porst('http://localhost:3001/notes/id:1')
-}
+    //axios.put(url, changedNote).then(response => { // put new note to server
+    //   setNotes(notes.map(n => n.id !== id ? n : response.data)) // change the note in DOM, i.e.: if ID does not match, keep note n, else, change to response from server (i.e. the data that was just put there)
+    // })
+    console.log(`toggle importance of note ${id}`)
+    // axios.porst('http://localhost:3001/notes/id:1')
+  }
 
-return (
-  <div>
-    <h1>Notes</h1>
+  return (
     <div>
-      <button onClick={() => setShowAll(!showAll)}>
-        show {showAll ? 'important' : 'all'}
-      </button>
+      <Notification message={errorMessage} />
+      <h1>Notes</h1>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all'}
+        </button>
+      </div>
+      <table>
+        <tbody>
+          {notesToShow.map(note =>
+            <Note
+              key={note.id}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />)}
+        </tbody>
+      </table>
+      <form onSubmit={addNote}>
+        <input
+          value={newNote}
+          onChange={handleNoteChange}
+        />
+        <button type="submit">save</button>
+      </form>
+      <Footer />
     </div>
-    <table>
-      <tbody>
-        {notesToShow.map(note =>
-          <Note
-            key={note.id}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
-          />)}
-      </tbody>
-    </table>
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}
-      />
-      <button type="submit">save</button>
-    </form>
-  </div>
-)
+  )
 }
 
 export default App

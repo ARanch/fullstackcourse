@@ -5,7 +5,7 @@ const Note = ({ note, toggleImportance }) => {
     ? 'make not importan' : 'make important'
   return (
     <tr>
-      <td>
+      <td className='note'>
         {note.content}
       </td>
       <td>

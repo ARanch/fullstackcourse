@@ -1,0 +1,26 @@
+h1 {
+    color: blueviolet;
+}
+
+.note {
+    color: rgb(50, 50, 50);
+    /* padding-top: 50px; */
+    width: 100%;
+    font-size: 20px;
+    background-color: rgb(239, 239, 239);
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px;
+}
+.note:hover {
+    background-color: rgb(204, 204, 204)
+}
+
+.error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
