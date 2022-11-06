@@ -66,6 +66,9 @@ const App = () => {
         //   console.log('person:',persons)
         //   console.log('newPersons:',newPersons)
         setPersons(newPersons)
+        setMessageType('overlaySuccess')
+        setMessage(`Updated phonenumber for ${newName}`)
+        resetOverlay(overlayTimeout)
         // } // using string template
 
       }
